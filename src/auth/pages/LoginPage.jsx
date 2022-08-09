@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link as RouterLink  } from 'react-router-dom';
@@ -10,7 +11,7 @@ import { useForm } from '../../hooks/useForm';
 
  export const LoginPage = () => {
 
-  // const { status } = useSelector( state => state.status );
+  const { status } = useSelector( state => state.auth );
   const dispatch = useDispatch();
 
   const { email, password, onInputChange } = useForm({
@@ -18,6 +19,8 @@ import { useForm } from '../../hooks/useForm';
     password: '123456'
   });
 
+
+  const isAuthenticating = useMemo( () => status === 'checking', [ status] );
   const onSubmit = ( event ) => {
     event.preventDefault();
     console.log( {email, password})
@@ -60,6 +63,7 @@ import { useForm } from '../../hooks/useForm';
                 type="submit" 
                 variant='contained' 
                 fullWidth
+                disabled={ isAuthenticating }
               >
                 Login
               </Button>
@@ -69,6 +73,7 @@ import { useForm } from '../../hooks/useForm';
                 variant='contained' 
                 fullWidth
                 onClick={ onGoogleSingIn }
+                disabled={ isAuthenticating }
               >
                 <Google /> 
                 <Typography sx={{ ml: 1 }}>
