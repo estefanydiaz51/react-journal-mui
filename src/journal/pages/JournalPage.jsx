@@ -1,11 +1,22 @@
+import { useDispatch, useSelector } from 'react-redux';
+ 
 import { IconButton } from '@mui/material';
 import { AddOutlined } from '@mui/icons-material';
 
 import { JournalLayout } from '../layout/JournalLayout';
 import { NoteView, NothingSelectedView } from '../views';
+import { startNewNote } from '../../store/journal/thunks';
 
 
 export const JournalPage = () => {
+
+  const dispatch = useDispatch();
+
+  const { isSaving, active } = useSelector( state => state.journal ); 
+
+  const onClickNewNote = () => {
+    dispatch( startNewNote() );
+  }
   return (
     <JournalLayout
       className='animate__animated animate__fadeIn animate__faster'
@@ -13,8 +24,12 @@ export const JournalPage = () => {
       {/* <Typography>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus obcaecati delectus ipsam, commodi ducimus placeat sapiente quibusdam maiores laboriosam adipisci voluptatum necessitatibus quod repellendus porro animi tempore distinctio labore. Debitis.
       </Typography> */}
-      <NothingSelectedView /> 
-      {/* <NoteView /> */}
+      {
+        ( !!active )
+          ? <NoteView />
+          : <NothingSelectedView />
+      }
+       
 
       <IconButton
         size='large'
@@ -26,6 +41,8 @@ export const JournalPage = () => {
           right: 50,
           bottom: 50
         }}
+        disabled={ isSaving }
+        onClick={ onClickNewNote }
       >
         <AddOutlined sx={{ fontSize: 30}} />
       </IconButton>
