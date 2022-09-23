@@ -35,7 +35,8 @@ const formData = {
   }
   return (
     <AuthLayout title='Login'>
-      <form 
+      <form
+        aria-label="submit-form"
         onSubmit={ onSubmit }
         className='animate__animated animate__fadeIn animate__faster'
       >
@@ -56,6 +57,9 @@ const formData = {
               label="Contraseña"
               type="password" 
               placeholder="contraseña"
+              inputProps={{
+                'data-testid': 'password'
+              }}
               fullWidth
               name="password"
               value={ password }
@@ -89,6 +93,7 @@ const formData = {
             </Grid>
             <Grid item xs={ 12 } sm={ 6 }>
               <Button 
+                aria-label="google-btn"
                 variant='contained' 
                 fullWidth
                 onClick={ onGoogleSingIn }

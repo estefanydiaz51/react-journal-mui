@@ -15,6 +15,7 @@ export const startGoogleSingIn = () => {
     dispatch( checkingCredentials() )
     const result = await signInWithGoogle();
     if ( !result.ok ) return dispatch( logout( result.errorMessage ) );
+    console.log( { result });
 
     dispatch( login( result ) )
   }
@@ -28,7 +29,7 @@ export const startCreatingUserWithEmailPassword = ({ email, password, displayNam
     const { ok, uid, photoURL, errorMessage } = await registerUserWithEmailPassword({ email, password, displayName }); 
     if ( !ok ) return dispatch( logout( {errorMessage} ) )
 
-    dispatch( login({ uid, displayName, email, photoURL }))
+    dispatch( login({ uid, displayName, email, photoURL, ok }))
   }
 }
 
@@ -37,7 +38,7 @@ export const starLoginWithEmailPassword = ({ email, password }) => {
     dispatch( checkingCredentials() );
     const { ok, uid, photoURL, errorMessage, displayName } = await loginWithEmailPassword({ email, password });
     if ( !ok ) return dispatch( logout( { errorMessage } ) )
-    dispatch( login( { uid, displayName, email, photoURL } ))
+    dispatch( login( { uid, displayName, email, photoURL, ok } ))
   }
 }
 
